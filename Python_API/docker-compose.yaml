@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  api:
+    restart: always
+    build: ./api
+    expose:
+      - "8000"
+    volumes:
+      - api-data:/usr/src/app/static
+    command: /usr/local/bin/gunicorn -w 2 -b :8000 app:app
+
+  nginx:
+    restart: always
+    build: ./nginx
+    ports:
+      - "80:80"
+    volumes:
+      - .:/www/static
+      - api-data:/usr/src/app/static
+    links:
+      - api:api
+
+volumes:
+  api-data:
