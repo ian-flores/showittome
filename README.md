@@ -32,3 +32,7 @@ The Flask API is contained within the `Python_API/api` directory. The API has on
 #### Docker Compose
 
 The `docker-compose.yaml` file brings up two services to serve the API. The first service is the API itself and the second service is an Nginx proxy to handle the connections to the `Gunicorn` server.
+
+## Acknowledgements
+
+Used Docker content from here: https://github.com/realpython/orchestrating-docker
