@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build Docker containers
+        run: |
+          cd Python_API
+          docker-compose build
+
+      - name: Verify containers start
+        run: |
+          cd Python_API
+          docker-compose up -d
+          sleep 5
+          docker-compose ps
+          docker-compose down
+
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Check Python syntax
+        run: |
+          python -m py_compile Python_API/api/app.py
